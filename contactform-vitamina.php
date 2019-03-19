@@ -34,7 +34,6 @@ add_action('wp_enqueue_scripts', 'ajax_script');
 // ** FORM SCRIPT ** //
 function use_fomrsript()
 {
-    $msg = null;
 
     if (isset($_POST['key_ajax'])) :
 
@@ -67,7 +66,7 @@ function use_fomrsript()
         endif;
 
     endif;
-    echo $msg;
+
     die();
 
     // do_action('after_validate', $array);
@@ -81,22 +80,29 @@ function save_contact($array)
 {
     global $wpdb;
 
-    $datatodb = ([
+    // data for save on data base. this incommming from post. see use_form_script function (last line)
+    $datatodb = array(
         'nombre' => $array[0],
         'email' => $array[1],
         'mensaje' => $array[2],
         'fecha' => current_time('mysql')
-    ]);
+    );
 
-    if ($wpdb->insert('contactos', $datatodb) && wp_mail('estebancajina@gmail.com', 'bla', 'bla')) :
+    // email data
+    $to = 'alan@vitaminaproducciones.cl';
+    $subject = 'Nuevo contacto desde web';
+    $message = 'mensaje de prueba';
+
+// FIXME Cómo pasar el mensaje del formulario a wp_mail?
+    if ( $wpdb->insert('contactos', $datatodb) && wp_mail($to, $subject, $message) ) :
 
         http_response_code(200);
-        echo json_encode(array('success' => true, 'success_save' => 'YeaH! Tus datos fueron almacendados, pronto un ejecutivo se contactará con UD.'));
+        echo json_encode(array('success' => true, 'success_save' => 'Tus datos fueron almacendados, pronto un ejecutivo se contactará con UD.'));
 
     else :
 
         http_response_code(400);
-        echo json_encode(array('success' => false, 'fail_save' => 'Oops! Tuvimos un problema, porfavor intenta más tarde :C'));
+        echo json_encode(array('success' => false, 'fail_save' => 'Tuvimos un problema con nuestro servidor, porfavor intenta más tarde :C'));
 
     endif;
 }
