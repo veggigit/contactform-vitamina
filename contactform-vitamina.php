@@ -34,53 +34,34 @@ add_action('wp_enqueue_scripts', 'ajax_script');
 // ** FORM SCRIPT ** //
 function use_fomrsript()
 {
-    // sesion
-    session_start();
 
-    // Validate Requests
-    if (!empty($_POST['key_nombre']) && !empty($_POST['key_body']) && is_email($_POST['key_email']) ) :
+    if (isset($_POST['key_ajax'])) :
 
-        if(isset($_SESSION['form_session'])) :
-            
-            wp_send_json_error ($_SESSION['form_session'], 400);
-
-        else:
-
-        // saneamos
         $nombre = sanitize_text_field($_POST['key_nombre']);
         $email = sanitize_email($_POST['key_email']);
         $body = sanitize_textarea_field($_POST['key_body']);
+        $ajax = $_POST['key_ajax'];
 
-        $array = array($nombre, $email, $body);
+        if ($nombre == '') :
 
-        // accion after succes validate
-        do_action('after_validate', $array);
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'nombre_error' => 'favor ingresa tu nombre'));
 
-        //creamos sesion para impedir doble submit
-        $_SESSION['form_session'] = 'Ya recibimos su mensaje! Si desea enviar otro mensaje favor intente más tarde';
 
-        wp_send_json_success ('ok', 200);
 
         endif;
 
-    elseif (!is_email($_POST['key_email'])) :
-
-        wp_send_json_error('Favor ingrese un email', 400);
-
-    else :
-
-        wp_send_json_error('Favor completel', 400);
-
     endif;
-
     die();
+
+    // do_action('after_validate', $array);
 }
 add_action('wp_ajax_nopriv_launch', 'use_fomrsript');
 add_action('wp_ajax_launch', 'use_fomrsript');
 
 
 // ** AFTER VALIDATE HOOK ** //
-function save_contact($array) 
+function save_contact($array)
 {
     global $wpdb;
 
@@ -94,6 +75,5 @@ function save_contact($array)
     $wpdb->insert('contactos', $data);
 
     wp_mail('estebancajina@gmail.com', 'bla', 'bla');
-
 }
 add_action('after_validate', 'save_contact');
