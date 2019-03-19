@@ -41,7 +41,9 @@ function use_fomrsript()
         $nombre = sanitize_text_field($_POST['key_nombre']);
         $email = sanitize_email($_POST['key_email']);
         $body = sanitize_textarea_field($_POST['key_body']);
-        $ajax = $_POST['key_ajax'];
+
+        // data for email and db
+        $array = array($nombre, $email, $body);
 
         if ($nombre == '') :
 
@@ -58,8 +60,9 @@ function use_fomrsript()
             http_response_code(400);
             echo json_encode(array('success' => false, 'body_error' => 'Favor ingresar mensaje'));
 
-        else:
+        else :
             // conectamos a la base de datos
+            do_action('after_validate', $array);
 
         endif;
 
@@ -78,15 +81,23 @@ function save_contact($array)
 {
     global $wpdb;
 
-    $data = ([
+    $datatodb = ([
         'nombre' => $array[0],
         'email' => $array[1],
         'mensaje' => $array[2],
         'fecha' => current_time('mysql')
     ]);
 
-    $wpdb->insert('contactos', $data);
+    if ($wpdb->insert('contactos', $datatodb) && wp_mail('estebancajina@gmail.com', 'bla', 'bla')) :
 
-    wp_mail('estebancajina@gmail.com', 'bla', 'bla');
+        http_response_code(200);
+        echo json_encode(array('success' => true, 'success_save' => 'YeaH! Tus datos fueron almacendados, pronto un ejecutivo se contactará con UD.'));
+
+    else :
+
+        http_response_code(400);
+        echo json_encode(array('success' => false, 'fail_save' => 'Oops! Tuvimos un problema, porfavor intenta más tarde :C'));
+
+    endif;
 }
 add_action('after_validate', 'save_contact');
