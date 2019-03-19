@@ -34,6 +34,7 @@ add_action('wp_enqueue_scripts', 'ajax_script');
 // ** FORM SCRIPT ** //
 function use_fomrsript()
 {
+    $msg = null;
 
     if (isset($_POST['key_ajax'])) :
 
@@ -45,13 +46,25 @@ function use_fomrsript()
         if ($nombre == '') :
 
             http_response_code(400);
-            echo json_encode(array('success' => false, 'nombre_error' => 'favor ingresa tu nombre'));
+            echo json_encode(array('success' => false, 'nombre_error' => 'Favor ingresa tu nombre'));
 
+        elseif (!is_email($email)) :
 
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'email_error' => 'Email no válido'));
+
+        elseif ($body == '') :
+
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'body_error' => 'Favor ingresar mensaje'));
+
+        else:
+            // conectamos a la base de datos
 
         endif;
 
     endif;
+    echo $msg;
     die();
 
     // do_action('after_validate', $array);
