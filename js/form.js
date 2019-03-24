@@ -52,21 +52,21 @@
         $('.msg-feed').text('');
         $('#save_status').text('');
         $('.form-control').removeClass('is-invalid');
-        $('.msg-feed').removeClass('invalid-feedback');
+        $('.msg-feed').removeClass('badge badge-danger');
 
         if (jqXHR.responseJSON.nombre_error) {
           var en = jqXHR.responseJSON.nombre_error;
-          $('#show_nombre_feed').append(en).addClass('invalid-feedback');
+          $('#show_nombre_feed').append(en).addClass('badge badge-danger');
           $('#nombre').addClass('is-invalid');
 
         } else if (jqXHR.responseJSON.email_error) {
           var ee = jqXHR.responseJSON.email_error;
-          $('#show_email_feed').append(ee).addClass('invalid-feedback');
+          $('#show_email_feed').append(ee).addClass('badge badge-danger');
           $('#email').addClass('is-invalid');
 
         } else if (jqXHR.responseJSON.body_error) {
           var be = jqXHR.responseJSON.body_error;
-          $('#show_body_feed').append(be).addClass('invalid-feedback');
+          $('#show_body_feed').append(be).addClass('badge badge-danger');
           $('#body').addClass('is-invalid');
 
           // SAVE FAIL. SERVER DOWN, DATABASE PROBLEM CONNECTION OR MAIL()PHP FAIL
