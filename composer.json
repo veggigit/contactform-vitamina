@@ -1,0 +1,19 @@
+{
+	"name": "veggigit/contactform-vitamina",
+	"description": "WP Plugin contact form for vitaminaproducciones.cl",
+	"keywords": [
+		"wordpress",
+		"plugin"
+	],
+	"homepage": "https://github.com/veggigit/contactform-vitamina",
+	"authors": [
+		{
+			"name": "@veggigit",
+			"homepage": "https://github.com/veggigit"
+		}
+	],
+	"type": "wordpress-plugin",
+	"require": {
+		"php": ">=5.6"
+	}
+}
