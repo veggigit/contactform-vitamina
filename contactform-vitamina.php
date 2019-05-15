@@ -89,10 +89,12 @@ function save_contact($array)
     );
 
     // email data
-    $to = "estebancajina@gmail.com";
-    $subject = "Nuevo contacto desde web";
-    $message = "<h3>Tienes un nuevo contacto desde vitaminaproducciones.cl</h3></br>De: $array[1]</br>Mensaje: $array[2]";
-    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $to = 'estebancajina@gmail.com';
+    $subject = 'contacto vitaminaproducciones.cl';
+    $message = 'Tienes un nuevo contacto desde el formulario de contacto' . PHP_EOL;
+    $message .= 'De:' .' '.$array[1] . PHP_EOL;
+    $message .= 'Mensaje:' .' '.$array[2] . PHP_EOL;
+    $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: estebancajina@devmind.cl');
 
     if ( $wpdb->insert('contactos', $datatodb) && mail($to, $subject, $message, $headers) ) :
 
