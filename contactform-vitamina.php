@@ -89,7 +89,7 @@ function save_contact($array)
     );
 
     // email data
-    $to = "alan@vitaminaproducciones.cl";
+    $to = "estebancajina@gmail.com";
     $subject = "Nuevo contacto desde web";
     $message = "<h3>Tienes un nuevo contacto desde vitaminaproducciones.cl</h3></br>De: $array[1]</br>Mensaje: $array[2]";
     $headers = array('Content-Type: text/html; charset=UTF-8');
