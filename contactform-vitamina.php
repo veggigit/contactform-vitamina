@@ -94,7 +94,11 @@ function save_contact($array)
     $message = 'Tienes un nuevo contacto desde el formulario de contacto' . PHP_EOL;
     $message .= 'De:' .' '.$array[1] . PHP_EOL;
     $message .= 'Mensaje:' .' '.$array[2] . PHP_EOL;
-    $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: estebancajina@devmind.cl');
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'CC: estebancajina@devmind.cl',
+        'BCC: estebancajina@devmind.cl'
+    );
 
     if ( $wpdb->insert('contactos', $datatodb) && mail($to, $subject, $message, $headers) ) :
 
