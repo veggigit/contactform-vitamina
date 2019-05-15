@@ -94,8 +94,7 @@ function save_contact($array)
     $message = "<h3>Tienes un nuevo contacto desde vitaminaproducciones.cl</h3></br>De: $array[1]</br>Mensaje: $array[2]";
     $headers = array('Content-Type: text/html; charset=UTF-8');
 
-// FIXME Cómo pasar el mensaje del formulario a wp_mail?
-    if ( $wpdb->insert('contactos', $datatodb) && wp_mail($to, $subject, $message, $headers) ) :
+    if ( $wpdb->insert('contactos', $datatodb) && mail($to, $subject, $message, $headers) ) :
 
         http_response_code(200);
         echo json_encode(array('success' => true, 'success_save' => 'Tus datos fueron almacendados, pronto un ejecutivo se contactará con UD.'));
