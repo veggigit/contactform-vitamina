@@ -89,7 +89,7 @@ function save_contact($array)
     );
 
     // email data
-    $to = 'estebancajina@devmind.cl';
+    $to = 'alan@vitaminaproducciones.cl';
     $subject = 'contacto vitaminaproducciones.cl';
     $message = 'Tienes un nuevo contacto desde el formulario de contacto' . PHP_EOL;
     $message .= 'De:' .' '.$array[1] . PHP_EOL;
@@ -97,9 +97,7 @@ function save_contact($array)
 
     // NOTE Los headers pueden variar segun la configuracion de postfix
     $headers = array(
-        'Content-Type: text/html; charset=UTF-8',
-        'CC: estebancajina@devmind.cl',
-        'BCC: estebancajina@devmind.cl'
+        'Content-Type: text/html; charset=UTF-8'
     );
 
     if ( $wpdb->insert('contactos', $datatodb) && mail($to, $subject, $message, $headers) ) :
